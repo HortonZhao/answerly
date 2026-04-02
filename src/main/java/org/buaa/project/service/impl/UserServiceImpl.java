@@ -369,6 +369,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
         if (userDO == null) {
             throw new ClientException(UserErrorCodeEnum.USER_NULL);
         }
+        //校验密码非空
+        if(requestParam.getNewPassword().isEmpty()){
+            throw new ClientException(USER_NEW_PASSWORD_NULL);
+        }
         // 2. 校验邮箱验证码（与发送时相同的 Key 规则）
         String key = USER_RESET_CODE_KEY + userDO.getMail().replace(EMAIL_SUFFIX, "");
         String cacheCode = stringRedisTemplate.opsForValue().get(key);

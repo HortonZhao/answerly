@@ -37,6 +37,8 @@ public enum UserErrorCodeEnum implements IErrorCode {
 
     USER_NAME_NULL("A000201", "用户名不存在"),
 
+    USER_NEW_PASSWORD_NULL("A000207", "新密码不能为空"),
+
     USER_PASSWORD_ERROR("A000202", "密码错误"),
 
     USER_REPEATED_LOGIN("A000203", "重复登录"),
