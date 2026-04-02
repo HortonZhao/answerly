@@ -338,9 +338,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     }
 
     @Override
-    public Boolean sendResetPasswordCode(String mail) {
-        if (!hasMail(mail)) {
+    public Boolean sendResetPasswordCode(String mail, String username) {
+        if (!hasUsername(username)) {
             throw new ClientException(UserErrorCodeEnum.USER_NULL);
+        }
+        if(!hasMail(mail)){
+            throw new ClientException(USER_MAIL_MISMATCH);
+        }
+        UserDO userDO = baseMapper.selectOne(
+                Wrappers.lambdaQuery(UserDO.class).eq(UserDO::getUsername, username));
+        if (userDO == null) {
+            throw new ClientException(UserErrorCodeEnum.USER_NULL);
+        }
+        if(!mail.equals(userDO.getMail())){
+            throw new ClientException(USER_MAIL_MISMATCH);
         }
         SimpleMailMessage message = new SimpleMailMessage();
         String code = RandomGenerator.generateSixDigitCode();

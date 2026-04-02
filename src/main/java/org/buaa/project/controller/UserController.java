@@ -138,8 +138,9 @@ public class UserController {
      * 重置密码验证码
      */
     @GetMapping("/api/answerly/v1/user/send-reset-password-code")
-    public Result<Boolean> resetPasswordCode(@RequestParam("mail") String mail) {
-        return Results.success(userService.sendResetPasswordCode(mail));
+    public Result<Boolean> resetPasswordCode(@RequestParam("mail") String mail,
+                                             @RequestParam("username") String username) {
+        return Results.success(userService.sendResetPasswordCode(mail,username));
     }
     /**
      * 重置密码

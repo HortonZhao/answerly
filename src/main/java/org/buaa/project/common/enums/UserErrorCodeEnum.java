@@ -51,6 +51,8 @@ public enum UserErrorCodeEnum implements IErrorCode {
 
     USER_NULL("A000301", "用户记录不存在"),
 
+    USER_MAIL_MISMATCH("A000302","邮箱与用户名不匹配"),
+
     USER_UPDATE_ERROR("A000302", "用户信息更新失败");
 
     private final String code;
