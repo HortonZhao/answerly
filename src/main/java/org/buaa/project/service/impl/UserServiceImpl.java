@@ -338,9 +338,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     }
 
     @Override
-    public Boolean sendResetPasswordCode(String mail) {
-        if (!hasMail(mail)) {
+    public Boolean sendResetPasswordCode(String mail, String username) {
+        if (!hasUsername(username)) {
             throw new ClientException(UserErrorCodeEnum.USER_NULL);
+        }
+        if(!hasMail(mail)){
+            throw new ClientException(USER_MAIL_MISMATCH);
+        }
+        UserDO userDO = baseMapper.selectOne(
+                Wrappers.lambdaQuery(UserDO.class).eq(UserDO::getUsername, username));
+        if (userDO == null) {
+            throw new ClientException(UserErrorCodeEnum.USER_NULL);
+        }
+        if(!mail.equals(userDO.getMail())){
+            throw new ClientException(USER_MAIL_MISMATCH);
         }
         SimpleMailMessage message = new SimpleMailMessage();
         String code = RandomGenerator.generateSixDigitCode();
@@ -368,6 +379,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
                 Wrappers.lambdaQuery(UserDO.class).eq(UserDO::getUsername, requestParam.getUsername()));
         if (userDO == null) {
             throw new ClientException(UserErrorCodeEnum.USER_NULL);
+        }
+        //校验密码非空
+        if(requestParam.getNewPassword().isEmpty()){
+            throw new ClientException(USER_NEW_PASSWORD_NULL);
         }
         // 2. 校验邮箱验证码（与发送时相同的 Key 规则）
         String key = USER_RESET_CODE_KEY + userDO.getMail().replace(EMAIL_SUFFIX, "");

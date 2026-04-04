@@ -37,6 +37,8 @@ public enum UserErrorCodeEnum implements IErrorCode {
 
     USER_NAME_NULL("A000201", "用户名不存在"),
 
+    USER_NEW_PASSWORD_NULL("A000207", "新密码不能为空"),
+
     USER_PASSWORD_ERROR("A000202", "密码错误"),
 
     USER_REPEATED_LOGIN("A000203", "重复登录"),
@@ -48,6 +50,8 @@ public enum UserErrorCodeEnum implements IErrorCode {
     USER_BANNED("A000206","用户已被封禁"),
 
     USER_NULL("A000301", "用户记录不存在"),
+
+    USER_MAIL_MISMATCH("A000302","邮箱与用户名不匹配"),
 
     USER_UPDATE_ERROR("A000302", "用户信息更新失败");
 

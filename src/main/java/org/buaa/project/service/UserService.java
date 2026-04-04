@@ -80,7 +80,7 @@ public interface UserService extends IService<UserDO> {
     /**
      * 发送重置密码验证码
      */
-    Boolean sendResetPasswordCode(String mail);
+    Boolean sendResetPasswordCode(String mail, String username);
 
     /**
      * 重置密码
